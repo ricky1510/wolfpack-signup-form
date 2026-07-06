@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Built for the Next League</title>
+<link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="hero-panel">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Partner Event · Robey HQ, Rotterdam</p>
+        <h1 class="title display">Built for the Next League</h1>
+        <div class="partner-row">
+          <p>Co-hosted with <span>Wolfpack</span>, <span>Mollie</span>, &amp; <span>Robey</span></p>
+          <p>Sponsored by <span>Shopify</span></p>
+        </div>
+      </div>
+
+      <div class="tab-group" role="tablist" aria-label="Toggle between registering and viewing the agenda">
+        <button type="button" class="tab-btn active" id="tab-register" role="tab" aria-selected="true" aria-controls="panel-register">
+          <img class="icon" src="static/img/calendar.svg" alt="">
+          <span class="tab-label">Register now</span>
+        </button>
+        <button type="button" class="tab-btn" id="tab-gameplan" role="tab" aria-selected="false" aria-controls="panel-gameplan">
+          <img class="icon" src="static/img/info.svg" alt="">
+          <span class="tab-label">What's the Game Plan?</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content-panel">
+    <div class="content-inner">
+
+      <section id="panel-register" class="panel" role="tabpanel" aria-labelledby="tab-register">
+        <h2 class="panel-title display">Sign me up</h2>
+        <p class="panel-sub">24 September | 15:30 – 21:30<br>Robey HQ, Rotterdam</p>
+
+        <form id="signupForm">
+          <div class="field-row">
+            <div class="field">
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="lastName">Last name</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required autocomplete="family-name">
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Enter company name" required autocomplete="organization">
+          </div>
+          <input type="hidden" name="_subject" value="New sign-up: Built for the Next League">
+          <button type="submit" class="btn-primary" id="submitBtn">Confirm my spot</button>
+          <p class="msg" id="formMsg"></p>
+        </form>
+      </section>
+
+      <section id="panel-gameplan" class="panel hidden" role="tabpanel" aria-labelledby="tab-gameplan">
+        <h2 class="panel-title display">The Game Plan</h2>
+        <p class="panel-sub">24 September | Robey HQ, Rotterdam</p>
+
+        <ol class="agenda">
+          <li class="agenda-row">
+            <span class="agenda-desc">Arrival at Robey HQ</span>
+            <span class="agenda-time">15:30</span>
+          </li>
+          <li class="agenda-row">
+            <span class="agenda-desc">Introduction</span>
+            <span class="agenda-time">16:00</span>
+          </li>
+          <li class="agenda-row">
+            <span class="agenda-desc">Behind-the-scenes tour</span>
+            <span class="agenda-time">16:20</span>
+          </li>
+          <li class="agenda-row">
+            <span class="agenda-desc">Short break</span>
+            <span class="agenda-time">16:50</span>
+          </li>
+          <li class="agenda-row">
+            <span class="agenda-desc">Live panel</span>
+            <span class="agenda-time">17:00</span>
+            <ul class="agenda-details">
+              <li>
+                Robey: the challenge
+              </li>
+              <li>
+                Wolfpack: the architecture and integration view 
+              </li>
+              <li>
+                Mollie: the payments view 
+              </li>
+              <li>
+                Joint questions
+              </li>
+              <li>
+                Q&amp;A
+              </li>
+            </ul>
+          </li>
+          <li class="agenda-row">
+            <span class="agenda-desc">Transfer</span>
+            <span class="agenda-time">18:00</span>
+          </li>
+          <li class="agenda-row">
+            <span class="agenda-desc">Dinner</span>
+            <span class="agenda-time">19:00 – 21:30</span>
+          </li>
+        </ol>
+      </section>
+
+      <div class="logo-row">
+        <img src="static/img/robey.svg" alt="Robey" class="partner-logo robey-logo">
+        <img src="static/img/wolfpack.svg" alt="Wolfpack Agency" class="partner-logo wolfpack-logo">
+        <img src="static/img/mollie.svg" alt="Mollie" class="partner-logo mollie-logo">
+        <img src="static/img/shopify.svg" alt="Shopify" class="partner-logo shopify-logo">
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+  // Replace this with your own Formspree endpoint, e.g. "https://formspree.io/f/abcd1234"
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xrewjwjk";
+
+  const form = document.getElementById("signupForm");
+  const formMsg = document.getElementById("formMsg");
+  const submitBtn = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    formMsg.textContent = "";
+    formMsg.className = "msg";
+
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const company = document.getElementById("company").value.trim();
+
+    if (!firstName || !lastName || !email || !company) {
+      formMsg.textContent = "Please fill in all fields before submitting.";
+      formMsg.className = "msg error";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Confirming...";
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: new FormData(form)
+      });
+
+      if (!response.ok) throw new Error("Form submission failed");
+
+      formMsg.textContent = "You're on the list. See you there!";
+      formMsg.className = "msg success";
+      form.reset();
+    } catch (err) {
+      console.error("Signup error:", err);
+      formMsg.textContent = "Something went wrong sending your sign-up. Please try again.";
+      formMsg.className = "msg error";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Confirm my spot";
+    }
+  });
+
+  // Tab toggle between "Register now" and "What's the Game Plan?"
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panelIdByTab = {
+    "tab-register": "panel-register",
+    "tab-gameplan": "panel-gameplan"
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+
+      Object.values(panelIdByTab).forEach((id) => {
+        document.getElementById(id).classList.add("hidden");
+      });
+      document.getElementById(panelIdByTab[tab.id]).classList.remove("hidden");
+    });
+  });
+</script>
+
+</body>
+</html>
