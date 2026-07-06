@@ -345,7 +345,7 @@ button {
 
 @media (min-width: 901px) {
   .hero-panel {
-    height: calc(100dvh - 80px);
+    height: calc(100dvh - 60px);
     position: sticky;
     top: 30px;
   }
