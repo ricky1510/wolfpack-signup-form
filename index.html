@@ -63,7 +63,7 @@
             <input type="text" id="company" name="company" placeholder="Enter company name" required autocomplete="organization">
           </div>
           <input type="hidden" name="_subject" value="New sign-up: Built for the Next League">
-          <button type="submit" class="btn-primary" id="submitBtn">Confirm my spot</button>
+          <button type="submit" class="btn-primary" id="submitBtn">Stay updated</button>
           <p class="msg" id="formMsg"></p>
         </form>
       </section>
@@ -174,7 +174,7 @@
       formMsg.textContent = "Something went wrong sending your sign-up. Please try again.";
       formMsg.className = "msg error";
     } finally {
-      formMsg.textContent = "You're on the list!";
+      formMsg.textContent = "Success! You're now signed up for updates.";
       formMsg.className = "msg success";
       form.reset();
     }
